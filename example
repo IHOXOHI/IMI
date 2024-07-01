@@ -1,0 +1,3 @@
+from IMI import TIMING
+t = TIMING()
+t.timing_us()
