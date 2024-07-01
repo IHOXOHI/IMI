@@ -1,5 +1,4 @@
 from time import ticks_us
-import uasyncio
 
 t1 = ticks_us()###Time reference start there. (or Now?)
 
