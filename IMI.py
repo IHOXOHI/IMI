@@ -19,24 +19,24 @@ def timing_display():
 
     if (si >= 60) and (si < 3600):
         minu = minu + (si // 60)
-        if minu > 60:
+        if minu >= 60:
             minu = minu - 60
             hou += 1
-            if hou > 60:
+            if hou >= 60:
                 hou = hou - 60
                 day +=1
         sec = si - (60 * (si // 60)) 
 
     if (si >= 3600) and (si < 216000):
         hou = hou + (si // 3600)
-        if hou > 60:
+        if hou >= 60:
             hou = hou - 60
             day += 1
         minu = minu + (si // 60)
-        if minu > 60:
+        if minu >= 60:
             minu = minu - 60
             hou += 1
-            if hou > 60:
+            if hou >= 60:
                 hou = hou - 60
                 day +=1
         sec = si - (60 *(si // 60))
