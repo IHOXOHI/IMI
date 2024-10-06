@@ -1,40 +1,55 @@
-from time import ticks_us
+from time import ticks_ms
+from pyb import RTC
 
-t1 = ticks_us()###Time reference start there. (or Now?)
+rtc = RTC()
+t1 = ticks_ms()
+tz = rtc.datetime()
+yea, mon, day, hou, minu, sec = tz[0],tz[1],tz[2],tz[4],tz[5],tz[6]
 
-class TIMING:
-    """New very simple'Timer Rescape' to manipulate unit's time with easy when classicals functions (time.localtime and/or RTC.datetime) doesn't works correctly"""
+def timing_display():
+    global yea, mon, day, hou, minu, sec, t1
+    tr = rtc.datetime()
+    try:
+        hou == tr[4]
+    except:
+        hou = tr[4]
+    try:
+        minu == tr[5]
+    except:
+        minu = tr[5]
 
-    def timing_us(self):
-        t2 = ticks_us()
-        us = t2 - t1
-        return us
+    now = ticks_ms()
+    delai = ((now - t1) // 1000)
+    si = sec + delai
+    t1 = now
 
-    def timing_ms(self):
-        t2 = self.timing_us()
-        ms = t2 // 1000
-        return ms
+    if si < 60:
+        sec = si
 
-    def timing_s(self):
-        t2 = self.timing_ms()
-        s = t2  // 1000
-        return s
+    if (si >= 60) and (si < 3600):
+        minu = minu + (si // 60)
+        if minu > 60:
+            minu = minu - 60
+            hou += 1
+            if hou > 60:
+                hou = hou - 60
+                day +=1
+        sec = si - 60 
 
-    def timing_m(self):
-        t2 = self.timing_s()
-        m = t2 // 60
-        return m
+    if (si >= 3600) and (si < 216000):
+        hou = hou + (si // 3600)
+        if hou > 60:
+            hou = hou - 60
+            day += 1
+        minu = minu + (si // 60)
+        if minu > 60:
+            minu = minu - 60
+            hou += 1
+            if hou > 60:
+                hou = hou - 60
+                day +=1
+        sec = si - 60
 
-    def timing_h(self):
-        t2 = self.timing_m()
-        h = t2 // 60
-        return h
+    return hou, minu, sec
 
-    def timing_d(self):
-        t2 = self.timing_h()
-        d = t2 // 24
-        return d
-
-    def timing_reset(self):
-        global t1
-        t1 = ticks_us()
+timing_display()
