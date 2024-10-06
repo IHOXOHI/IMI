@@ -1,3 +1,7 @@
-from IMI import TIMING
-t = TIMING()
-t.timing_us()
+import IMI
+from pyb import delay
+
+while 1:
+    tt = IMI.timing_display()
+    print(tt)
+    delay(1000)
